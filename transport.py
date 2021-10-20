@@ -1,5 +1,5 @@
 import json
-
+import ast
 class Person:
     def __init__(self,username,password,personType):
         self.username = username
@@ -17,32 +17,32 @@ class CargoOwner(Person):
         print("Temp calShipping")
 
 class Driver(Person):
-    def __init__(self,username,password,personType,lorryDetails,driverDetails):
-        self.username = username
-        self.password = password
-        self.personType = personType
+    def __init__(self,username,password,personType,lorryDetails,driverDetails,company):
+        super().__init__(username,password,personType)
         self.lorryDetails = lorryDetails
         self.driverDetails = driverDetails
-        return super().__init_subclass__()
+        self.company = company
     def viewOrders():
         print("Temp viewOrders")
     def acceptOrders():
         print("Temp acceptOrders")
     
 class TransportCompany(Person):
-    def __init_subclass__(self):
-        return super().__init_subclass__()
+    def __init__(self,username,password,personType):
+        super().__init__(username,password,personType)
+        self.orderList = []
     def showCustomerOrders():
         print("Temp showCustomerOrders")
     def sendOrder():
         print("Temp sendOrder")
 
 class Order():
-    def __init__(self,start,end,miles,weight):
+    def __init__(self,start,end,miles,weight,orderID):
         self.start = start
         self.end = end
         self.miles = miles
         self.weight = weight
+        self.orderID = orderID
 
 """This function takes the user input and selects if they want to login
    or register, while also taking the value of "typeChoice" to see if 
@@ -76,7 +76,10 @@ def login(typeChoice):
         if typeChoice == 1:
             mainCargoOwner()
         if typeChoice == 2:
-            print("sdf")
+            print(2)
+            #mainTransportCompany()
+        if typeChoice == 3:
+            mainTransportCompany()
 
     else:
         loggedIn = False
@@ -94,7 +97,8 @@ def registerDriver():
     password = input("Enter password")
     lorryDetails = input("Enter Lorry details")
     driverDetails = input("Enter driver details")
-    tempObj = Driver(username,password,"Driver",driverDetails,lorryDetails)
+    company = input("Enter what company you work for:")
+    tempObj = Driver(username,password,"Driver",driverDetails,lorryDetails,company)
     tempObj = vars(tempObj)
     y = json.dumps(tempObj)
     writingToJson(y,"Drivers")
@@ -102,7 +106,7 @@ def registerDriver():
 def registerTransportCompany():
     username = input("Enter username")
     password = input("Enter password")
-    tempObj = TransportCompany(username,password,"Transport Comapny")
+    tempObj = TransportCompany(username,password,"Transport Company")
     tempObj = vars(tempObj)
     y = json.dumps(tempObj)
     writingToJson(y,"Transport Company")
@@ -117,7 +121,6 @@ def writingToJson(y,typeOf):
             print(i)
         
 def mainCargoOwner():
-    
     print("""
         What would you like to do
         1: Calculate shipping rates
@@ -140,10 +143,39 @@ def mainCargoOwner():
         end = input("Enter end location: ")
         weight = int(input("Enter weight: "))
         miles = int(input("How many miles: "))
-        tempObj = Order(start,end,miles,weight)
+        orderID = int(input("OrderID: "))
+        tempObj = Order(start,end,miles,weight,orderID)
         tempObj = vars(tempObj)
         y = json.dumps(tempObj)
         writingToJson(y,"Orders")
+
+def mainTransportCompany():
+    print("""
+        1:View orders for drivers
+        2:View available orders)
+        """)
+    username = "EON"
+    choice = int(input("Enter selection: "))
+    if choice == 1:
+        with open("transport.json","r") as f:
+            fData = json.load(f)
+            
+    if choice == 2:
+        print("Displaying orders")
+        with open("transport.json","r") as f:
+            fData = json.load(f)
+            count = 1
+            for x in fData["Orders"]:
+                print("Order number",count,": ",x)
+                count += 1
+            orderChoice = int(input("Select order: "))
+            x = fData["Orders"][orderChoice-1]
+            y = json.loads(x)
+            orderID = y["orderID"]
+            print(orderID)
+            dicCompany = fData["Transport Company"]
+            print(dicCompany)
+
 """Main function"""
 
 def main():
@@ -163,4 +195,5 @@ def main():
     else:
         print("Invalid input, try again")
         main()
-main()
+# main()
+mainTransportCompany()

@@ -1,11 +1,15 @@
 {
     "Cargo Owners": [
-        "{\"username\": \"Josh\", \"password\": \"password\", \"personType\": \"Cargo Owner\"}",
-        "{\"username\": \"Ben\", \"password\": \"password2\", \"personType\": \"Cargo Owner\"}"
+        "{\"username\": \"CargoOwner1\", \"password\": \"CargoOwnerPass1\", \"personType\": \"Cargo Owner\"}"
     ],
-    "Drivers": [],
-    "Transport Company": [],
+    "Drivers": [
+        "{\"username\": \"DriverUser1\", \"password\": \"DriverPass1\", \"personType\": \"Driver\", \"lorryDetails\": \"DriverDetails1\", \"driverDetails\": \"LorryDetails1\", \"company\": \"EON\"}"
+    ],
+    "Transport Company": [
+        "{\"username\": \"TCuser1\", \"password\": \"TCpass1\", \"personType\": \"Transport Company\", \"orderList\": []}",
+        "{\"username\": \"EON\", \"password\": \"password123\", \"personType\": \"Transport Company\", \"orderList\": []}"
+    ],
     "Orders": [
-        "{\"start\": \"yeet\", \"end\": \"teyye2\", \"miles\": 10, \"weight\": 1000}"
+        "{\"start\": \"Start1\", \"end\": \"End1\", \"miles\": 1, \"weight\": 1, \"orderID\": 1}"
     ]
 }
